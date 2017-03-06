@@ -31,7 +31,7 @@ class SubjectService {
 
     const subjToUpdate = _.find(this.subjects, {id: subj.id});
 
-    _.forIn(subj, (key, value) => {
+    _.forIn(subj, (value, key) => {
       subjToUpdate[key] = value;
     });
   }

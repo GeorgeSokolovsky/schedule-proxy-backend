@@ -31,7 +31,7 @@ class TeamService {
 
     const subjToUpdate = _.find(this.teams, {id: subj.id});
 
-    _.forIn(subj, (key, value) => {
+    _.forIn(subj, (value, key) => {
       subjToUpdate[key] = value;
     });
   }

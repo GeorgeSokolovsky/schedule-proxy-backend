@@ -51,7 +51,7 @@ router.delete('/:id', (req, res) => {
     });
 });
 
-router.patch('/:id', (req, res) => {
+router.put('/:id', (req, res) => {
   modelControllerInstance
     .update(modelName, req.params.id, req.body.team)
     .then((result) => {

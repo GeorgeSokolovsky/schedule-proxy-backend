@@ -31,7 +31,7 @@ class ModelController {
 
     update(modelName, id, data) {
         return new Promise((resolve) => {
-          resolve(this.importService(modelName).update(_.assign(Number(id), data)));
+          resolve(this.importService(modelName).update(_.assign({id: Number(id)}, data)));
         });
     }
 

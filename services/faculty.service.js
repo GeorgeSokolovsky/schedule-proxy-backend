@@ -1,5 +1,5 @@
 const _ = require('lodash');
-import { faculties } from '../mock/faculties/faculties-data.mock';
+const faculties = require('../mock/faculties/faculties-data.mock').faculties;
 
 class FacultyService {
   findAll() {
@@ -31,7 +31,7 @@ class FacultyService {
 
     const subjToUpdate = _.find(this.faculties, {id: subj.id});
 
-    _.forIn(subj, (key, value) => {
+    _.forIn(subj, (value, key) => {
       subjToUpdate[key] = value;
     });
   }
