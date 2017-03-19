@@ -5,25 +5,26 @@ class InstructorService {
   findAll() {
     this.checkCache();
 
-    return this.instructors;
+    return Promise.resolve(this.instructors);
   }
 
   findOne(id) {
     this.checkCache();
 
-    return _.find(this.instructors, {id});
+    return Promise.resolve(_.find(this.instructors, {id}));
   }
 
   save(subj) {
     this.checkCache();
 
-    this.instructors.push(subj);
+    subj.id = this.instructors.length + 1;
+    return Promise.resolve(this.instructors.push(subj));
   }
 
   remove(idToRemove) {
     this.checkCache();
 
-    return _.remove(this.instructors, ({id}) => id === idToRemove);
+    return Promise.resolve(_.remove(this.instructors, ({id}) => id === idToRemove));
   }
 
   update(subj) {
@@ -34,6 +35,8 @@ class InstructorService {
     _.forIn(subj, (value, key) => {
       subjToUpdate[key] = value;
     });
+
+    return Promise.resolve(subjToUpdate);
   }
 
    checkCache() {

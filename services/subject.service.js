@@ -5,25 +5,26 @@ class SubjectService {
   findAll() {
     this.checkCache();
 
-    return this.subjects;
+    return Promise.resolve(this.subjects);
   }
 
   findOne(id) {
     this.checkCache();
 
-    return _.find(this.subjects, {id});
+    return Promise.resolve(_.find(this.subjects, {id}));
   }
 
   save(subj) {
     this.checkCache();
 
-    this.subjects.push(subj);
+    subj.id = this.subjects.length + 1;
+    return Promise.resolve(this.subjects.push(subj));
   }
 
   remove(idToRemove) {
     this.checkCache();
 
-    return _.remove(this.subjects, ({id}) => id === idToRemove);
+    return Promise.resolve(_.remove(this.subjects, ({id}) => id === idToRemove));
   }
 
   update(subj) {
@@ -34,6 +35,8 @@ class SubjectService {
     _.forIn(subj, (value, key) => {
       subjToUpdate[key] = value;
     });
+
+    return Promise.resolve(subjToUpdate);
   }
 
    checkCache() {

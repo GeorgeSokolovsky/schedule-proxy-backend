@@ -5,15 +5,12 @@ const modelControllerInstance = require('../../../../public/controllers/model.co
 const modelName = 'team';
 
 router.get('/', (req, res) => {
-  console.log('get for teams');
   modelControllerInstance
     .findAll(modelName)
     .then((models) => {
-      console.log('at then with ' + models);
       res.json(models);
     })
     .catch((err) => {
-      console.log('error handled ' + err);
       res.json(err);
     });
 });
@@ -31,7 +28,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   modelControllerInstance
-    .save(modelName, req.body.team)
+    .save(modelName, req.body)
     .then((result) => {
       res.json(result);
     })
@@ -53,7 +50,7 @@ router.delete('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
   modelControllerInstance
-    .update(modelName, req.params.id, req.body.team)
+    .update(modelName, req.params.id, req.body)
     .then((result) => {
       res.json(result);
     })

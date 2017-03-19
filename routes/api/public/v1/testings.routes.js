@@ -2,13 +2,13 @@ const router = require('express').Router();
 
 const modelControllerInstance = require('../../../../public/controllers/model.controller').modelControllerInstance;
 
-const modelName = 'faculty';
+const modelName = 'testing';
 
 router.get('/', (req, res) => {
   modelControllerInstance
     .findAll(modelName)
     .then((models) => {
-      res.json(JSON.parse(models));
+      res.json(models);
     })
     .catch((err) => {
       res.json(err);
@@ -28,7 +28,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', (req, res) => {
   modelControllerInstance
-    .save(modelName, req.body.faculty)
+    .save(modelName, req.body)
     .then((result) => {
       res.json(result);
     })
@@ -50,7 +50,7 @@ router.delete('/:id', (req, res) => {
 
 router.put('/:id', (req, res) => {
   modelControllerInstance
-    .update(modelName, req.params.id, req.body.faculty)
+    .update(modelName, req.params.id, req.body)
     .then((result) => {
       res.json(result);
     })

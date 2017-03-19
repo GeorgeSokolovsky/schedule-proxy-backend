@@ -5,25 +5,26 @@ class TeamService {
   findAll() {
     this.checkCache();
 
-    return this.teams;
+    return Promise.resolve(this.teams);
   }
 
   findOne(id) {
     this.checkCache();
 
-    return _.find(this.teams, {id});
+    return Promise.resolve(_.find(this.teams, {id}));
   }
 
   save(subj) {
     this.checkCache();
 
-    this.teams.push(subj);
+    subj.id = this.teams.length + 1;
+    return Promise.resolve(this.teams.push(subj));
   }
 
   remove(idToRemove) {
     this.checkCache();
 
-    return _.remove(this.teams, ({id}) => id === idToRemove);
+    return Promise.resolve(_.remove(this.teams, ({id}) => id === idToRemove));
   }
 
   update(subj) {
@@ -34,6 +35,8 @@ class TeamService {
     _.forIn(subj, (value, key) => {
       subjToUpdate[key] = value;
     });
+
+    return Promise.resolve(subjToUpdate);
   }
 
   checkCache() {

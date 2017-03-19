@@ -1,45 +1,64 @@
-const _ = require('lodash');
-const departments = require('../mock/departments/departments-data.mock').departments;
+const request = require('request');
 
 class DepartmentService {
   findAll() {
-    this.checkCache();
+    return new Promise((res, rej) => {
+      request.get(`${schedule}department`, (error, {body}) => {
+        if (error) {
+          rej(error);
+        }
 
-    return this.departments;
-  }
-
-  findOne(id) {
-    this.checkCache();
-
-    return _.find(this.departments, {id});
-  }
-
-  save(subj) {
-    this.checkCache();
-
-    this.departments.push(subj);
-  }
-
-  remove(idToRemove) {
-    this.checkCache();
-
-    return _.remove(this.departments, ({id}) => id === idToRemove);
-  }
-
-  update(subj) {
-    this.checkCache();
-
-    const subjToUpdate = _.find(this.departments, {id: subj.id});
-
-    _.forIn(subj, (value, key) => {
-      subjToUpdate[key] = value;
+        res(body);
+      });
     });
   }
 
-   checkCache() {
-    if (_.isUndefined(this.departments)) {
-      this.departments = departments;
-    }
+  findOne(id) {
+    return new Promise((res, rej) => {
+      request.get(`${schedule}department/${id}`, (error, {body}) => {
+        if (error) {
+          rej(error);
+        }
+
+        res(body);
+      });
+    });
+  }
+
+  save(subj) {
+    return new Promise((res, rej) => {
+      request.post({url: `${schedule}department`, json: {subj}}, (error, {body}) => {
+        if (error) {
+          rej(error);
+        }
+
+        res(body);
+      });
+    });
+  }
+
+  remove(idToRemove) {
+    return new Promise((res, rej) => {
+      request.delete(`${schedule}department/${idToRemove}`, (error, {body}) => {
+        if (error) {
+          rej(error);
+        }
+
+        res(body);
+      });
+    });
+  }
+
+  update(subj) {
+    return new Promise((res, rej) => {
+      request.put({url: `${schedule}department`, json: {subj}}, (error, {body}) => {
+        if (error) {
+          rej(error);
+        }
+
+        res(body);
+      });
+    });
   }
 }
 

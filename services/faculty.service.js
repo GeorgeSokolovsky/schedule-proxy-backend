@@ -1,45 +1,66 @@
-const _ = require('lodash');
-const faculties = require('../mock/faculties/faculties-data.mock').faculties;
+const request = require('request');
+
+const {env: {schedule}} = process;
 
 class FacultyService {
   findAll() {
-    this.checkCache();
+    return new Promise((res, rej) => {
+      request.get(`${schedule}faculty`, (error, {body}) => {
+        if (error) {
+          rej(error);
+        }
 
-    return this.faculties;
-  }
-
-  findOne(id) {
-    this.checkCache();
-
-    return _.find(this.faculties, {id});
-  }
-
-  save(subj) {
-    this.checkCache();
-
-    this.faculties.push(subj);
-  }
-
-  remove(idToRemove) {
-    this.checkCache();
-
-    return _.remove(this.faculties, ({id}) => id === idToRemove);
-  }
-
-  update(subj) {
-    this.checkCache();
-
-    const subjToUpdate = _.find(this.faculties, {id: subj.id});
-
-    _.forIn(subj, (value, key) => {
-      subjToUpdate[key] = value;
+        res(body);
+      });
     });
   }
 
-   checkCache() {
-    if (_.isUndefined(this.faculties)) {
-      this.faculties = faculties;
-    }
+  findOne(id) {
+    return new Promise((res, rej) => {
+      request.get(`${schedule}faculty/${id}`, (error, {body}) => {
+        if (error) {
+          rej(error);
+        }
+
+        res(body);
+      });
+    });
+  }
+
+  save(subj) {
+    return new Promise((res, rej) => {
+      request.post({url:`${schedule}faculty`, json: {subj}}, (error, {body}) => {
+        if (error) {
+          rej(error);
+        }
+
+        res(body);
+      });
+    });
+  }
+
+  remove(idToRemove) {
+    return new Promise((res, rej) => {
+      request.delete(`${schedule}faculty/${idToRemove}`, (error, {body}) => {
+        if (error) {
+          rej(error);
+        }
+
+        res(body);
+      });
+    });
+  }
+
+  update(subj) {
+    return new Promise((res, rej) => {
+      request.put({url:`${schedule}faculty`, json: {subj}}, (error, {body}) => {
+        if (error) {
+          rej(error);
+        }
+
+        res(body);
+      });
+    });
   }
 }
 
